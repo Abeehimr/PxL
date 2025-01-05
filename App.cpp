@@ -17,6 +17,8 @@ void App::run(){
 
     mouse = new LeftMouse();
     ForwardSlashBrush p;
+    Bucket b;
+    bool active = false;
 
     while (window.isOpen()) {
 
@@ -28,11 +30,15 @@ void App::run(){
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
                 canvas->clear();
-
+            
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::B)
+                active = !active;
 
         }
         mouse->Update(&window);
         p.handleEvent(mouse,sf::Color::Black,canvas);
+        if (active)
+            b.handleEvent(mouse,sf::Color::Red,canvas);
         // update
         canvas->UpdateTexture();
         window.clear(sf::Color(0,128,127));

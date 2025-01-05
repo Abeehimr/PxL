@@ -1,6 +1,48 @@
 #include "Tools.h"
 
 
+void Bucket::handleEvent(LeftMouse* mouse, sf::Color color, Canvas* canvas) {
+    // if not inside canvas return (if mouse is not pressed)
+    if (!canvas->isInside(mouse->mousePos.x, mouse->mousePos.y)) return;
+    // if the color is same as the color of the pixel return
+    if (canvas->getPixel(mouse->mousePos.x, mouse->mousePos.y) == color) return;
+    // get the color of the pixel
+    auto oldColor = canvas->getPixel(mouse->mousePos.x, mouse->mousePos.y);
+
+    std::stack<std::pair<int, int>> stack;
+    stack.push({mouse->mousePos.x, mouse->mousePos.y});
+
+    while (!stack.empty()) {
+        auto [x, y] = stack.top();
+        stack.pop();
+
+        int y1 = y;
+        while (canvas->isInside(x, y1) && canvas->getPixel(x, y1) == oldColor) y1--;
+        y1++;
+        bool spanLeft = false;
+        bool spanRight = false;
+
+        while (canvas->isInside(x, y1) && canvas->getPixel(x, y1) == oldColor) {
+            canvas->setPixel(x, y1, color);
+
+            if (!spanLeft && canvas->isInside(x - 1, y1) && canvas->getPixel(x - 1, y1) == oldColor) {
+                stack.push({x - 1, y1});
+                spanLeft = true;
+            } else if (spanLeft && canvas->isInside(x - 1, y1) && canvas->getPixel(x - 1, y1) != oldColor) {
+                spanLeft = false;
+            }
+
+            if (!spanRight && canvas->isInside(x + 1, y1) && canvas->getPixel(x + 1, y1) == oldColor) {
+                stack.push({x + 1, y1});
+                spanRight = true;
+            } else if (spanRight && canvas->isInside(x + 1, y1) && canvas->getPixel(x + 1, y1) != oldColor) {
+                spanRight = false;
+            }
+            y1++;
+        }
+    }
+}
+
 
 
 Brush::Brush(Stamp* s){

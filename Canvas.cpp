@@ -28,6 +28,16 @@ void Canvas::setPixel(float x, float y, sf::Color color){
     image.setPixel(x,y,color);
 }
 
+sf::Color Canvas::getPixel(float x, float y){
+    if (!isInside(x,y)) return INVALID_COLOR;
+    auto offset = sprite.getPosition();
+    x -= offset.x;
+    y -= offset.y;
+    return image.getPixel(x,y);
+}
+
+
+
 void Canvas::clear(){
     UpdateImage(image.getSize().x, image.getSize().y);
 }

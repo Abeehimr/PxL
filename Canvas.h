@@ -11,6 +11,7 @@ public:
     void UpdateImage(int, int);
     bool isInside(int, int);
     void setPixel(float, float, sf::Color);
+    sf::Color getPixel(float, float);
     void clear();
     sf::Image& getImage();
     void UpdateTexture();
