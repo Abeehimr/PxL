@@ -7,8 +7,12 @@ private:
     sf::Sprite canvasSprite;
 public:
     Canvas(int width,int height){
-        canvasImage.create(800, 600, sf::Color::White);
+        UpdateImage(width,height);
         canvasTexture.loadFromImage(canvasImage);
+    }
+
+    void UpdateImage(int width, int height){
+        canvasImage.create(width, height, sf::Color::White);
     }
 
     void UpdateTexture(){
@@ -19,13 +23,15 @@ public:
         canvasSprite.setPosition(x,y);
     }
 
-    void updateSize(){
+    void updateSize(int height, int width){
+        sf::IntRect rect = canvasSprite.getTextureRect();
+        auto xscale = width/rect.width;
+        auto yscale = height/rect.height;
+        canvasSprite.setScale(xscale,yscale);
     }
 
     void UpdateSprite(long left,long top, long width, long height){
         canvasSprite.setTexture(canvasTexture);
         canvasSprite.setTextureRect(sf::IntRect(left,top,width,height));
     }
-
-
 };
