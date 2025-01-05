@@ -1,8 +1,7 @@
-#include "Dep.h"
-#include "Canvas.cpp"
+#include "Utility.h"
 
 // bresenham's line algorithm
-void drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* canvas){
+void Utility::drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* canvas){
     int dx = abs(x1-x0);
     int dy = abs(y1-y0);
     int sx = x0 < x1 ? 1 : -1;
@@ -24,7 +23,7 @@ void drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* canvas){
 }
 
 // mid point ellipes algorithm
-void drawEllipe(int xc, int yc, int width, int height, sf::Color color, Canvas* canvas) {
+void Utility::drawEllipe(int xc, int yc, int width, int height, sf::Color color, Canvas* canvas) {
     // Calculate semi-major and semi-minor axes
     int a = width / 2;  // Semi-major axis
     int b = height / 2; // Semi-minor axis
@@ -82,7 +81,7 @@ void drawEllipe(int xc, int yc, int width, int height, sf::Color color, Canvas* 
 }
 
 
-void drawCircle(int x0, int y0, int radius, sf::Color color, Canvas* canvas){
+void Utility::drawCircle(int x0, int y0, int radius, sf::Color color, Canvas* canvas){
     int x = radius;
     int y = 0;
     int dx = 1 - (radius << 1);
