@@ -1,12 +1,15 @@
 #pragma once
 #include "Dep.h"
 #include "Canvas.cpp"
+#include "Mouse.cpp"
+#include "Tools.cpp"
 
 class App {
     private:
         sf::RenderWindow window;
         sf::Vector2u size;
         Canvas* canvas;
+        LeftMouse* mouse;
     public:
 
         App(){
@@ -18,10 +21,14 @@ class App {
         }
         ~App(){
             delete canvas;
+            delete mouse;
         }
 
         void run(){
-            sf::Vector2i lastMousePos(-1, -1);
+
+            mouse = new LeftMouse();
+            Pencil p;
+
             while (window.isOpen()) {
 
                 // event hanlding
@@ -30,23 +37,11 @@ class App {
                     if (event.type == sf::Event::Closed) {
                         window.close();
                     }
-                    
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
                         canvas->clear();
-
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-                        if (canvas->isInside(mousePos.x, mousePos.y)) {
-                            if (lastMousePos.x != -1 && lastMousePos.y != -1) {
-                                canvas->setPixel(mousePos.x, mousePos.y, sf::Color::Black);
-                            }
-                            lastMousePos = mousePos;
-                        }
-                    } else {
-                        lastMousePos = sf::Vector2i(-1, -1); // Reset when the mouse is not pressed
-                    }                    
                 }
+                mouse->Update(&window);
+                p.handleEvent(mouse, canvas);
 
                 // update
                 canvas->UpdateTexture();
