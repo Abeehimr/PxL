@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -c
-OBJECTS = main.o App.o Canvas.o Mouse.o Tools.o Utils.o
+OBJECTS = main.o App.o Canvas.o Mouse.o Tools.o Utils.o Stamps.o
 DEP = -lsfml-graphics -lsfml-window -lsfml-system
 OUTPUT = paint
 

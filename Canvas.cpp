@@ -21,6 +21,7 @@ bool Canvas::isInside(int x, int y){
 }
 
 void Canvas::setPixel(float x, float y, sf::Color color){
+    if (!isInside(x,y)) return;
     auto offset = sprite.getPosition();
     x -= offset.x;
     y -= offset.y;

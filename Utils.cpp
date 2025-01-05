@@ -1,14 +1,15 @@
 #include "Utils.h"
 
 // bresenham's line algorithm
-void Utility::drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* canvas){
+void Utils::drawLine(int x0,int y0 ,int x1, int y1,Stamp* s,sf::Color color, Canvas* canvas){
     int dx = abs(x1-x0);
     int dy = abs(y1-y0);
     int sx = x0 < x1 ? 1 : -1;
     int sy = y0 < y1 ? 1 : -1;
     int err = dx-dy;
     while(true){
-        canvas->setPixel(x0,y0,color);
+        s->draw(sf::Vector2i(x0,y0),color,canvas);
+        //canvas->setPixel(x0,y0,color);
         if(x0 == x1 && y0 == y1) break;
         int e2 = 2*err;
         if(e2 > -dy){
@@ -23,7 +24,7 @@ void Utility::drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* c
 }
 
 // mid point ellipes algorithm
-void Utility::drawEllipe(int xc, int yc, int width, int height, sf::Color color, Canvas* canvas) {
+void Utils::drawEllipe(int xc, int yc, int width, int height, sf::Color color, Canvas* canvas) {
     // Calculate semi-major and semi-minor axes
     int a = width / 2;  // Semi-major axis
     int b = height / 2; // Semi-minor axis
@@ -81,7 +82,7 @@ void Utility::drawEllipe(int xc, int yc, int width, int height, sf::Color color,
 }
 
 
-void Utility::drawCircle(int x0, int y0, int radius, sf::Color color, Canvas* canvas){
+void Utils::drawCircle(int x0, int y0, int radius, sf::Color color, Canvas* canvas){
     int x = radius;
     int y = 0;
     int dx = 1 - (radius << 1);

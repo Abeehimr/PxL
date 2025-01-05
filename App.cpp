@@ -16,7 +16,7 @@ App::~App(){
 void App::run(){
 
     mouse = new LeftMouse();
-    Pencil p;
+    ForwardSlashBrush p;
 
     while (window.isOpen()) {
 
@@ -28,10 +28,11 @@ void App::run(){
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
                 canvas->clear();
+
+
         }
         mouse->Update(&window);
-        p.handleEvent(mouse, canvas);
-
+        p.handleEvent(mouse,sf::Color::Black,canvas);
         // update
         canvas->UpdateTexture();
         window.clear(sf::Color(0,128,127));
