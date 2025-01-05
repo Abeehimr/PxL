@@ -1,114 +1,60 @@
-#include "Dep.h"
-#include "Canvas.cpp"
+#include "Stamps.h"
 
 
-class Stamp {
-    public:
-        // draw on canvas the stamp with centre
-        virtual void draw(sf::Vector2i ,sf::Color,Canvas*) = 0;
-};
+Stamp::Stamp(int r){
+    radius = r;
+}
 
-class Point: public Stamp {
-    public:
-        void draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
-            canvas->setPixel(pos.x,pos.y,color);
-        }
-};
+void Stamp::setRadius(int r){
+    radius = max(0,r);
+}
 
-class Circle: public Stamp {
-    private:
-        int radius;
-    public:
-        Circle(int radius){
-            this->radius = max(0,radius);
-        }
+int Stamp::getRadius(){
+    return radius;
+}
 
-        void setRadius(int radius){
-            this->radius = max(0,radius);
-        }
+Point::Point():Stamp(0){
+    radius = 0;
+}
 
-        int getRadius(){
-            return radius;
-        }
+void Point::draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
+    canvas->setPixel(pos.x,pos.y,color);
+}
 
-        void draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
-            for(int i = -radius; i <= radius; i++){
-                for(int j = -radius; j <= radius; j++){
-                    if(i*i + j*j <= radius*radius){
-                        canvas->setPixel(pos.x+i,pos.y+j,color);
-                    }
-                }
+Circle::Circle(int radius):Stamp(radius){}
+
+void Circle::draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
+    for(int i = -radius; i <= radius; i++){
+        for(int j = -radius; j <= radius; j++){
+            if(i*i + j*j <= radius*radius){
+                canvas->setPixel(pos.x+i,pos.y+j,color);
             }
         }
-};
+    }
+}
 
-class Square: public Stamp {
-    private:
-        int radius;
-    public:
-        Square(int radius){
-            this->radius = max(0,radius);
-        }
+Square::Square(int radius):Stamp(radius){}
 
-        void setRadius(int radius){
-            this->radius = max(0,radius);
+void Square::draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
+    for(int i = -radius; i <= radius; i++){
+        for(int j = -radius; j <= radius; j++){
+            canvas->setPixel(pos.x+i,pos.y+j,color);
         }
+    }
+}
 
-        int getRadius(){
-            return radius;
-        }
+BackSlash::BackSlash(int radius):Stamp(radius){}
 
-        void draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
-            for(int i = -radius; i <= radius; i++){
-                for(int j = -radius; j <= radius; j++){
-                    canvas->setPixel(pos.x+i,pos.y+j,color);
-                }
-            }
-        }
-};
+void BackSlash::draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
+    for(int i = -radius; i <= radius; i++){
+        canvas->setPixel(pos.x+i,pos.y+i,color);       
+    }
+}
 
-class BackSlash: public Stamp {
-    private:
-        int radius;
-    public:
-        BackSlash(int radius){
-            this->radius = max(0,radius);
-        }
+ForwardSlash::ForwardSlash(int radius):Stamp(radius){}
 
-        void setRadius(int radius){
-            this->radius = max(0,radius);
-        }
-
-        int getRadius(){
-            return radius;
-        }
-
-        void draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
-            for(int i = -radius; i <= radius; i++){
-                canvas->setPixel(pos.x+i,pos.y+i,color);       
-            }
-        }
-};
-
-class ForwardSlash: public Stamp {
-    private:
-        int radius;
-    public:
-        ForwardSlash(int radius){
-            this->radius = max(0,radius);
-        }
-
-        void setRadius(int radius){
-            this->radius = max(0,radius);
-        }
-
-        int getRadius(){
-            return radius;
-        }
-
-        void draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
-            for(int i = -radius; i <= radius; i++){
-                canvas->setPixel(pos.x+i,pos.y-i,color);       
-            }
-        }
-};
+void ForwardSlash::draw(sf::Vector2i pos,sf::Color color,Canvas* canvas){
+    for(int i = -radius; i <= radius; i++){
+        canvas->setPixel(pos.x+i,pos.y-i,color);       
+    }
+}

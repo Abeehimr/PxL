@@ -1,6 +1,6 @@
 #pragma once
 #include "Dep.h"
-#include "Canvas.cpp"
+#include "Canvas.h"
 
 class Utility {
     public:

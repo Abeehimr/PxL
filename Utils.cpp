@@ -1,4 +1,4 @@
-#include "Utility.h"
+#include "Utils.h"
 
 // bresenham's line algorithm
 void Utility::drawLine(int x0,int y0 ,int x1, int y1, sf::Color color, Canvas* canvas){

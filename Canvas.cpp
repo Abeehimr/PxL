@@ -1,72 +1,65 @@
-#pragma once
-#include "Dep.h"
-class Canvas {
-private:
-    sf::Image image;
-    sf::Texture texture;
-    sf::Sprite sprite;
-public:
-    Canvas(int width,int height){
-        UpdateImage(width,height);
-        texture.loadFromImage(image);
-        sprite.setTexture(texture);
-    }
+#include "Canvas.h"
 
-    void UpdateImage(int width, int height){
-        image.create(width, height, sf::Color::White);
-    }
+Canvas::Canvas(int width,int height){
+    UpdateImage(width,height);
+    texture.loadFromImage(image);
+    sprite.setTexture(texture);
+}
 
-    bool isInside(int x, int y){
-        // take offset of the sprite
-        // sub from x,y
-        // check if x and y are inside the image
-        auto offset = sprite.getPosition();
-        x -= offset.x;
-        y -= offset.y;
-        return x >= 0 && x < image.getSize().x && y >= 0 && y < image.getSize().y;
-    }
+void Canvas::UpdateImage(int width, int height){
+    image.create(width, height, sf::Color::White);
+}
 
-    void setPixel(float x, float y, sf::Color color){
-        auto offset = sprite.getPosition();
-        x -= offset.x;
-        y -= offset.y;
-        image.setPixel(x,y,color);
-    }
+bool Canvas::isInside(int x, int y){
+    // take offset of the sprite
+    // sub from x,y
+    // check if x and y are inside the image
+    auto offset = sprite.getPosition();
+    x -= offset.x;
+    y -= offset.y;
+    return x >= 0 && x < image.getSize().x && y >= 0 && y < image.getSize().y;
+}
 
-    void clear(){
-        UpdateImage(image.getSize().x, image.getSize().y);
-    }
+void Canvas::setPixel(float x, float y, sf::Color color){
+    auto offset = sprite.getPosition();
+    x -= offset.x;
+    y -= offset.y;
+    image.setPixel(x,y,color);
+}
 
-    sf::Image& getImage(){
-        return image;
-    }
+void Canvas::clear(){
+    UpdateImage(image.getSize().x, image.getSize().y);
+}
 
-    void UpdateTexture(){
-        texture.update(image);
-    }
+sf::Image& Canvas::getImage(){
+    return image;
+}
 
-    void updatePosition(float x, float y){
-        sprite.setPosition(x,y);
-    }
+void Canvas::UpdateTexture(){
+    texture.update(image);
+}
 
-    void updateSize(int height, int width){
-        sf::IntRect rect = sprite.getTextureRect();
-        auto xscale = width/rect.width;
-        auto yscale = height/rect.height;
-        sprite.setScale(xscale,yscale);
-    }
+void Canvas::updatePosition(float x, float y){
+    sprite.setPosition(x,y);
+}
 
-    void UpdateSprite(long left,long top, long width, long height){
-        sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(left,top,width,height));
-    }
+void Canvas::updateSize(int height, int width){
+    sf::IntRect rect = sprite.getTextureRect();
+    auto xscale = width/rect.width;
+    auto yscale = height/rect.height;
+    sprite.setScale(xscale,yscale);
+}
 
-    void draw(sf::RenderWindow& window){
-        UpdateTexture();
-        window.draw(sprite);
-    }
+void Canvas::UpdateSprite(long left,long top, long width, long height){
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(left,top,width,height));
+}
 
-    sf::Sprite& getSprite(){
-        return sprite;
-    }
-};
+void Canvas::draw(sf::RenderWindow& window){
+    UpdateTexture();
+    window.draw(sprite);
+}
+
+sf::Sprite& Canvas::getSprite(){
+    return sprite;
+}
