@@ -15,6 +15,14 @@ public:
         canvasImage.create(width, height, sf::Color::White);
     }
 
+    void clear(){
+        UpdateImage(canvasImage.getSize().x, canvasImage.getSize().y);
+    }
+
+    sf::Image& getImage(){
+        return canvasImage;
+    }
+
     void UpdateTexture(){
         canvasTexture.update(canvasImage);
     }
@@ -33,5 +41,13 @@ public:
     void UpdateSprite(long left,long top, long width, long height){
         canvasSprite.setTexture(canvasTexture);
         canvasSprite.setTextureRect(sf::IntRect(left,top,width,height));
+    }
+
+    void draw(sf::RenderWindow& window){
+        cout << "Drawing canvas\n";
+        window.draw(canvasSprite);
+    }
+    sf::Sprite& getSprite(){
+        return canvasSprite;
     }
 };

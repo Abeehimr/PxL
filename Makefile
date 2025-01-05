@@ -1,15 +1,31 @@
-CC=g++
-CFLAGS = -c
 OBJECTS = main.o
 SFMLFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
-all: prog
 
-prog: $(OBJECTS)
-	$(CC) $(OBJECTS) -o prog $(SFMLFLAGS)
+# Source Files
+SRCS = $(wildcard *.cpp)
 
+# Object Files
+OBJS = $(SRCS:.cpp=.o)
+
+# Executable Name
+TARGET = paint
+
+# Default Target
+all: $(TARGET)
+
+# Build the Executable
+$(TARGET): $(OBJS)
+	g++ -o $(TARGET) $(OBJS) $(SFMLFLAGS)
+
+# Compile Object Files
 %.o: %.cpp
-	$(CC) $(CFLAGS) $<
+	g++ -c $< -o $@
 
+# Clean Up
 clean:
-	rm -rf *.o prog
+	rm -f $(OBJS) $(TARGET)
+
+# Run the Program
+run: $(TARGET)
+	./$(TARGET)
