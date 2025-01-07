@@ -4,6 +4,7 @@ App::App(){
     window.create(sf::VideoMode::getDesktopMode(), "Paint 95",sf::Style::Close);
     size = window.getSize();
     canvas = new Canvas(size.x-100, size.y-150);
+    pallete = new Pallete();
     canvas->updatePosition(100,50);
     cout << "App created\n";
 }
@@ -11,14 +12,16 @@ App::App(){
 App::~App(){
     delete canvas;
     delete mouse;
+    delete pallete;
 }
 
 void App::run(){
 
     mouse = new LeftMouse();
-    SprayBrush p;
-    Bucket b;
+    Tool* t = new SprayBrush();
+    Tool* e = new Eraser();
     bool active = false;
+
 
     while (window.isOpen()) {
 
@@ -33,12 +36,14 @@ void App::run(){
             
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::B)
                 active = !active;
-
+                
         }
         mouse->Update(&window);
-        p.handleEvent(mouse,sf::Color::Black,canvas);
         if (active)
-            b.handleEvent(mouse,sf::Color::Red,canvas);
+            e->handleEvent(mouse,pallete,canvas);
+        else{
+            t->handleEvent(mouse,pallete,canvas);
+        }
         // update
         canvas->UpdateTexture();
         window.clear(sf::Color(0,128,127));

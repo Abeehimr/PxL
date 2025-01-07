@@ -1,9 +1,31 @@
 #include "Tools.h"
 
 
-void Bucket::handleEvent(LeftMouse* mouse, sf::Color color, Canvas* canvas) {
+Tool::Tool(int c){
+    useColor = c;
+}
+
+sf::Color Tool::getColor(Pallete* pallete){
+    if (useColor){
+        return pallete->getSecondaryColor();
+    }
+    else{
+        return pallete->getPrimaryColor();
+    }
+}
+
+
+Bucket::Bucket():Tool(0){
+
+}
+
+void Bucket::handleEvent(LeftMouse* mouse, Pallete* pallete, Canvas* canvas) {
     // if not inside canvas return (if mouse is not pressed)
     if (!canvas->isInside(mouse->mousePos.x, mouse->mousePos.y)) return;
+
+    // get color
+
+    sf::Color color = getColor(pallete);
     // if the color is same as the color of the pixel return
     if (canvas->getPixel(mouse->mousePos.x, mouse->mousePos.y) == color) return;
     // get the color of the pixel
@@ -45,7 +67,7 @@ void Bucket::handleEvent(LeftMouse* mouse, sf::Color color, Canvas* canvas) {
 
 
 
-Brush::Brush(Stamp* s){
+Brush::Brush(Stamp* s,int c):Tool(c){
     stamp = s;
 }
 
@@ -53,21 +75,23 @@ Brush::~Brush(){
     delete stamp;
 }
 
-void Brush::handleEvent(LeftMouse* mouse,sf::Color color,Canvas* canvas){
+void Brush::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
     if (canvas->isInside(mouse->lastMousePos.x, mouse->lastMousePos.y)) {
-        Utils::drawLine(mouse->lastMousePos.x, mouse->lastMousePos.y, mouse->mousePos.x, mouse->mousePos.y,stamp,color,canvas);
-        
+        sf::Color color = getColor(pallete);
+        Utils::drawLine(mouse->lastMousePos.x, mouse->lastMousePos.y, mouse->mousePos.x, mouse->mousePos.y,stamp,color,canvas);        
     }
 }
 
-CircleBrush::CircleBrush():Brush(new Circle(5)){}
+Pencil::Pencil():Brush(new Square(1),0){}
 
-SquareBrush::SquareBrush():Brush(new Square(5)){}
+CircleBrush::CircleBrush():Brush(new Circle(5),0){}
 
-BackSlashBrush::BackSlashBrush():Brush(new BackSlash(5)){}
+SquareBrush::SquareBrush():Brush(new Square(5),0){}
 
-ForwardSlashBrush::ForwardSlashBrush():Brush(new ForwardSlash(5)){}
+BackSlashBrush::BackSlashBrush():Brush(new BackSlash(5),0){}
 
-SprayBrush::SprayBrush():Brush(new Spray(5)){}
+ForwardSlashBrush::ForwardSlashBrush():Brush(new ForwardSlash(5),0){}
 
-Eraser::Eraser():Brush(new Square(5)){}
+SprayBrush::SprayBrush():Brush(new Spray(5),0){}
+
+Eraser::Eraser():Brush(new Square(5),1){}

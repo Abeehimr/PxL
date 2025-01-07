@@ -4,16 +4,21 @@
 #include "Stamps.h"
 #include "Utils.h"
 #include "Mouse.h"
-
+#include "Pallete.h"
 class Tool {
+    protected:
+        int useColor;
     public:
-        virtual void handleEvent(LeftMouse*,sf::Color, Canvas* ) = 0;
+        Tool(int);
+        sf::Color getColor(Pallete*);
+        virtual void handleEvent(LeftMouse*,Pallete*, Canvas* ) = 0;
 };
 
 
 class Bucket: public Tool{
     public:
-        void handleEvent(LeftMouse* mouse,sf::Color color, Canvas* canvas);
+        Bucket();
+        void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
 };
 
 
@@ -21,14 +26,14 @@ class Brush: public Tool{
     protected:
         Stamp* stamp;
     public:
-        Brush(Stamp* s);
+        Brush(Stamp* s,int);
         ~Brush();
-        void handleEvent(LeftMouse* mouse,sf::Color color, Canvas* canvas);
+        void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
 };
 
 class Pencil: public Brush{
     public:
-        Pencil():Brush(new Point()){};
+        Pencil();
 };
 
 class CircleBrush: public Brush{
