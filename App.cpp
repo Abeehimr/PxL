@@ -16,7 +16,7 @@ App::~App(){
 void App::run(){
 
     mouse = new LeftMouse();
-    ForwardSlashBrush p;
+    SprayBrush p;
     Bucket b;
     bool active = false;
 
