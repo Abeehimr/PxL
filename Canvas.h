@@ -6,6 +6,10 @@ private:
     sf::Image image;
     sf::Texture texture;
     sf::Sprite sprite;
+
+    sf::Image tempImage;
+    sf::Texture tempTexture;
+    sf::Sprite tempSprite;
 public:
     Canvas(int, int);
     void UpdateImage(int, int);
@@ -20,4 +24,6 @@ public:
     void UpdateSprite(long, long, long, long);
     void draw(sf::RenderWindow&);
     sf::Sprite& getSprite();
+
+    sf::Vector2i getCoords(float, float);
 };

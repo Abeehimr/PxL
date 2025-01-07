@@ -4,36 +4,33 @@ Canvas::Canvas(int width,int height){
     UpdateImage(width,height);
     texture.loadFromImage(image);
     sprite.setTexture(texture);
+
+    tempTexture.loadFromImage(tempImage);
+    tempSprite.setTexture(tempTexture);
 }
+
+
 
 void Canvas::UpdateImage(int width, int height){
     image.create(width, height, sf::Color::White);
+    tempImage.create(width, height, sf::Color::Transparent);
 }
 
 bool Canvas::isInside(int x, int y){
-    // take offset of the sprite
-    // sub from x,y
-    // check if x and y are inside the image
-    auto offset = sprite.getPosition();
-    x -= offset.x;
-    y -= offset.y;
-    return x >= 0 && x < image.getSize().x && y >= 0 && y < image.getSize().y;
+    auto [nx,ny] = getCoords(x,y);
+    return sprite.getTextureRect().contains(nx,ny);
 }
 
 void Canvas::setPixel(float x, float y, sf::Color color){
     if (!isInside(x,y)) return;
-    auto offset = sprite.getPosition();
-    x -= offset.x;
-    y -= offset.y;
-    image.setPixel(x,y,color);
+    auto [nx,ny] = getCoords(x,y);
+    image.setPixel(nx,ny,color);
 }
 
 sf::Color Canvas::getPixel(float x, float y){
     if (!isInside(x,y)) return INVALID_COLOR;
-    auto offset = sprite.getPosition();
-    x -= offset.x;
-    y -= offset.y;
-    return image.getPixel(x,y);
+    auto [nx,ny] = getCoords(x,y);
+    return image.getPixel(nx,ny);
 }
 
 
@@ -73,4 +70,14 @@ void Canvas::draw(sf::RenderWindow& window){
 
 sf::Sprite& Canvas::getSprite(){
     return sprite;
+}
+
+// assume it get world coords
+sf::Vector2i Canvas::getCoords(float x, float y){
+    auto [nx,ny] = sprite.getInverseTransform().transformPoint(sf::Vector2f(x,y));
+    auto rect = sprite.getTextureRect();
+    nx += rect.left;
+    ny += rect.top;
+    auto offest = sprite.getPosition();
+    return sf::Vector2i(static_cast<int>(nx),static_cast<int>(ny));
 }

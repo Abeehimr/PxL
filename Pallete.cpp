@@ -20,6 +20,18 @@ void Pallete::swapColors(){
 void Pallete::changePrimaryColor(int index){
     primaryColorIndex = index;   
 }
+
+void Pallete::changePrimaryColor(sf::Color color){
+    for (int i = 0; i < colors.size(); i++){
+        if (colors[i] == color){
+            primaryColorIndex = i;
+            return;
+        }
+    }
+    colors.push_back(color);
+    primaryColorIndex = colors.size()-1;
+}
+
 void Pallete::changeSecondaryColor(int index) {
     secondaryColorIndex = index;
 }

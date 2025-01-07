@@ -7,13 +7,25 @@
 #include "Pallete.h"
 class Tool {
     protected:
+        Stamp* stamp;
         int useColor;
     public:
-        Tool(int);
+        Tool(int,Stamp* s = nullptr);
+        virtual ~Tool();
+        void setStamp(Stamp* s = nullptr);
+        Stamp* getStamp();
+        void setStampRadius(int);
+        int getStampRadius();
         sf::Color getColor(Pallete*);
         virtual void handleEvent(LeftMouse*,Pallete*, Canvas* ) = 0;
 };
 
+
+class EyeDropper: public Tool{
+    public:
+        EyeDropper();
+        void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
+};
 
 class Bucket: public Tool{
     public:
@@ -21,13 +33,10 @@ class Bucket: public Tool{
         void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
 };
 
-
+// basically represent free hand drawing
 class Brush: public Tool{
-    protected:
-        Stamp* stamp;
     public:
-        Brush(Stamp* s,int);
-        ~Brush();
+        Brush(Stamp* s,int x = 0);
         void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
 };
 
@@ -64,4 +73,10 @@ class SprayBrush: public Brush{
 class Eraser: public Brush{
     public:
         Eraser();
+};
+
+class Line: public Tool{
+    public:
+        Line();
+        void handleEvent(LeftMouse* mouse,Pallete*, Canvas* canvas);
 };

@@ -17,6 +17,7 @@ class Pallete {
         sf::Color getSecondaryColor();
         void swapColors();
         void changePrimaryColor(int index);
+        void changePrimaryColor(sf::Color color);
         void changeSecondaryColor(int index);
 
 };

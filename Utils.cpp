@@ -8,7 +8,7 @@ void Utils::drawLine(int x0,int y0 ,int x1, int y1,Stamp* s,sf::Color color, Can
     int sy = y0 < y1 ? 1 : -1;
     int err = dx-dy;
     while(true){
-        s->draw(sf::Vector2i(x0,y0),color,canvas);
+        s->draw(sf::Vector2f(x0,y0),color,canvas);
         //canvas->setPixel(x0,y0,color);
         if(x0 == x1 && y0 == y1) break;
         int e2 = 2*err;

@@ -1,8 +1,13 @@
 #include "Tools.h"
 
-
-Tool::Tool(int c){
+// TOOL
+Tool::Tool(int c,Stamp* s){
     useColor = c;
+    stamp = s;
+}
+
+Tool::~Tool() {
+    delete stamp;
 }
 
 sf::Color Tool::getColor(Pallete* pallete){
@@ -14,10 +19,26 @@ sf::Color Tool::getColor(Pallete* pallete){
     }
 }
 
-
-Bucket::Bucket():Tool(0){
-
+void Tool::setStamp(Stamp* s){
+    if (stamp != nullptr) delete stamp;
+    stamp = s;
 }
+
+Stamp* Tool::getStamp(){
+    return stamp;
+}
+
+void Tool::setStampRadius(int r){
+    stamp->setRadius(r);
+}
+
+int Tool::getStampRadius(){
+    return stamp->getRadius();
+}
+
+
+// BUCKET
+Bucket::Bucket():Tool(0){}
 
 void Bucket::handleEvent(LeftMouse* mouse, Pallete* pallete, Canvas* canvas) {
     // if not inside canvas return (if mouse is not pressed)
@@ -66,14 +87,9 @@ void Bucket::handleEvent(LeftMouse* mouse, Pallete* pallete, Canvas* canvas) {
 }
 
 
+// BRUSH
+Brush::Brush(Stamp* s,int c):Tool(c,s){}
 
-Brush::Brush(Stamp* s,int c):Tool(c){
-    stamp = s;
-}
-
-Brush::~Brush(){
-    delete stamp;
-}
 
 void Brush::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
     if (canvas->isInside(mouse->lastMousePos.x, mouse->lastMousePos.y)) {
@@ -82,16 +98,41 @@ void Brush::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
     }
 }
 
-Pencil::Pencil():Brush(new Square(1),0){}
+// PENCIL
+Pencil::Pencil():Brush(new Point(),0){}
 
-CircleBrush::CircleBrush():Brush(new Circle(5),0){}
 
-SquareBrush::SquareBrush():Brush(new Square(5),0){}
+// idk what to do with these
+CircleBrush::CircleBrush():Brush(new Circle(5)){}
 
-BackSlashBrush::BackSlashBrush():Brush(new BackSlash(5),0){}
+SquareBrush::SquareBrush():Brush(new Square(5)){}
 
-ForwardSlashBrush::ForwardSlashBrush():Brush(new ForwardSlash(5),0){}
+BackSlashBrush::BackSlashBrush():Brush(new BackSlash(5)){}
 
-SprayBrush::SprayBrush():Brush(new Spray(5),0){}
+ForwardSlashBrush::ForwardSlashBrush():Brush(new ForwardSlash(5)){}
 
+SprayBrush::SprayBrush():Brush(new Spray(5)){}
+
+
+// Eraser
 Eraser::Eraser():Brush(new Square(5),1){}
+
+// EYEDROPPER
+EyeDropper::EyeDropper():Tool(0){}
+
+void EyeDropper::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
+    if (canvas->isInside(mouse->mousePos.x, mouse->mousePos.y)) {
+        pallete->changePrimaryColor(canvas->getPixel(mouse->mousePos.x, mouse->mousePos.y));
+    }
+}
+
+// LINE
+Line::Line():Tool(1,new Circle(0)){}
+
+void Line::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
+    if (mouse->startMousePos != mouse->lastMousePos) {
+        sf::Color color = getColor(pallete);    
+        Utils::drawLine(mouse->startMousePos.x, mouse->startMousePos.y, mouse->lastMousePos.x, mouse->lastMousePos.y,stamp,color,canvas);
+    }
+}
+

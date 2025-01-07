@@ -1,7 +1,7 @@
 #include "App.h"
 
 App::App(){
-    window.create(sf::VideoMode::getDesktopMode(), "Paint 95",sf::Style::Close);
+    window.create(sf::VideoMode::getDesktopMode(), "Paint 95",sf::Style::Default);
     size = window.getSize();
     canvas = new Canvas(size.x-100, size.y-150);
     pallete = new Pallete();
@@ -18,7 +18,8 @@ App::~App(){
 void App::run(){
 
     mouse = new LeftMouse();
-    Tool* t = new SprayBrush();
+    Tool* t = new CircleBrush();
+    t->setStampRadius(20);
     Tool* e = new Eraser();
     bool active = false;
 
