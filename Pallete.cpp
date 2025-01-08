@@ -8,7 +8,7 @@ Pallete::Pallete(int x, int y){
     xStart = 50;
     yStart = 20;
 
-    std::vector<sf::Color> colors = {
+    colors = {
         sf::Color(0,0,0),
         sf::Color(120,120,120),
         sf::Color(121,3,0),
@@ -102,8 +102,8 @@ void Pallete::draw(sf::RenderWindow& window){
 
 
 void Pallete::handleEvent(LeftMouse* mouse){
-    if (mouse->mousePos.x == -1 && mouse->mousePos.y == -1) return;
-    if (mouse->lastMousePos.x != -1 || mouse->lastMousePos.y != -1) return;
+    if (mouse->mousePos == INVALID_POS_f) return;
+    if (mouse->lastMousePos != INVALID_POS_f) return;
     for (ColorBox& box : palette) {
         auto [nx,ny] = box.shape.getInverseTransform().transformPoint(mouse->mousePos);
         if (0 <= nx && nx <= buttonSize && 0 <= ny && ny <= buttonSize) {
@@ -114,7 +114,6 @@ void Pallete::handleEvent(LeftMouse* mouse){
 
     auto [px,py] = primaryColorBox.getInverseTransform().transformPoint(mouse->mousePos);
     auto [sx,sy] = secondaryColorBox.getInverseTransform().transformPoint(mouse->mousePos);
-    
     
     if ((0 <= px && px <= buttonSize && 0 <= py && py <= buttonSize)
         || (0 <= sx && sx <= buttonSize && 0 <= sy && sy <= buttonSize)) {

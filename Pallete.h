@@ -8,8 +8,6 @@ struct ColorBox {
 };
 
 
-
-
 // pallete class that stores colors and give 2 colors 1. primary and 2. seconadary
 class Pallete {
     private:

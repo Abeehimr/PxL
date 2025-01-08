@@ -29,10 +29,12 @@ Stamp* Tool::getStamp(){
 }
 
 void Tool::setStampRadius(int r){
+    if (stamp == nullptr) return;
     stamp->setRadius(r);
 }
 
 int Tool::getStampRadius(){
+    if (stamp == nullptr) return -1;
     return stamp->getRadius();
 }
 
@@ -99,7 +101,7 @@ void Brush::handleEvent(LeftMouse* mouse,Pallete* pallete,Canvas* canvas){
 }
 
 // PENCIL
-Pencil::Pencil():Brush(new Point(),0){}
+Pencil::Pencil():Brush(new Point()){}
 
 
 // idk what to do with these

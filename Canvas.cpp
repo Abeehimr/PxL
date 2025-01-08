@@ -78,6 +78,5 @@ sf::Vector2i Canvas::getCoords(float x, float y){
     auto rect = sprite.getTextureRect();
     nx += rect.left;
     ny += rect.top;
-    auto offest = sprite.getPosition();
     return sf::Vector2i(static_cast<int>(nx),static_cast<int>(ny));
 }
