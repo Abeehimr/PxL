@@ -15,7 +15,8 @@ class Toolbar {
     private:
         vector<Tool*> tools;
         vector<Button> buttons;
-        sf::Texture texture; // temp
+        vector<sf::Texture> textures; // temp
+        vector<string> iconFiles;
         int currentTool;
         int posX;
         int posY;
@@ -30,5 +31,5 @@ class Toolbar {
         void releaseButton(int);
         void draw(sf::RenderWindow& window);
         void handleEvent(LeftMouse* mouse,Pallete* pallete, Canvas* canvas);
-        Tool* getTool(int);
+        Tool* getTool();
 };

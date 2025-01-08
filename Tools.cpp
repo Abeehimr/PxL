@@ -28,6 +28,16 @@ Stamp* Tool::getStamp(){
     return stamp;
 }
 
+void Tool::incStampRadius(){
+    if (stamp == nullptr) return;
+    stamp->incRadius();
+}
+
+void Tool::decStampRadius(){
+    if (stamp == nullptr) return;
+    stamp->decRadius();
+}
+
 void Tool::setStampRadius(int r){
     if (stamp == nullptr) return;
     stamp->setRadius(r);

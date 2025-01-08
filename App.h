@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "Tools.h"
 #include "Pallete.h"
+#include "Toolbar.h"
 
 class App {
     private:
@@ -13,9 +14,11 @@ class App {
         sf::Vector2u size;
         Canvas* canvas;
         Pallete* pallete;
+        Toolbar* toolbar;
         LeftMouse* mouse;
     public:
         App();
         ~App();
         void run();
+        void keyEvent(sf::Event event);
 };

@@ -13,6 +13,15 @@ int Stamp::getRadius(){
     return radius;
 }
 
+void Stamp::incRadius(){
+    radius++;
+}
+
+void Stamp::decRadius(){
+    radius = max(0,radius-1);
+}
+
+
 Point::Point():Stamp(0){
     radius = 0;
 }

@@ -10,6 +10,8 @@ class Stamp {
         Stamp(int);
         void setRadius(int);
         int getRadius();
+        void incRadius();
+        void decRadius();
         // draw on canvas the stamp with centre
         virtual void draw(sf::Vector2f ,sf::Color,Canvas*) = 0;
 };

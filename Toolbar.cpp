@@ -5,8 +5,8 @@ Toolbar::Toolbar(int x, int y){
     posY = y;
     buttonSize = 35;
     spacing = 5;
-    xStart = 20;
-    yStart = 20;
+    xStart = 10;
+    yStart = 10;
 
     tools = {
         new Eraser(),
@@ -17,8 +17,35 @@ Toolbar::Toolbar(int x, int y){
         new SprayBrush(),
     };
 
+    iconFiles= {
+        "icons/eraser.png",
+        "icons/fill_color.png",
+        "icons/eyedropper.png",
+        "icons/pencil.png",
+        "icons/rung.png",
+        "icons/spray.png"
 
-    texture.loadFromFile("icon.png");    
+        // "icons/line.png",
+        // "icons/rect.png",
+        // "icons/oval.png",
+        // "icons/dotted rect.png",
+        
+        // "icons/search.png",
+        // "icons/text.png",
+        // "icons/curve.png",
+        // "icons/attach.png",
+        // "icons/rounded.png"
+    };
+
+    for (size_t i = 0; i < iconFiles.size(); i++) {
+        sf::Texture texture;
+        textures.push_back(texture);
+        if (!textures[i].loadFromFile(iconFiles[i])) {
+            std::cerr << "Failed to load icon: " << iconFiles[i] << std::endl;            
+        }
+    }
+
+
 
     // Create buttons for the toolbar
     int toolIndex = 0;
@@ -33,7 +60,7 @@ Toolbar::Toolbar(int x, int y){
                 posX + xStart + col * (buttonSize + spacing),
                 posY + yStart + row * (buttonSize + spacing)
             );
-            button.icon.setTexture(texture);
+            button.icon.setTexture(textures[button.index]);
 
             float scaleX = buttonSize / button.icon.getGlobalBounds().width * 0.8f; // Adjust scaling factor
             float scaleY = buttonSize / button.icon.getGlobalBounds().height * 0.8f;
@@ -89,8 +116,8 @@ void Toolbar::draw(sf::RenderWindow& window){
     }
 }
 
-Tool* Toolbar::getTool(int index){
-    return tools[index];
+Tool* Toolbar::getTool(){
+    return tools[currentTool];
 }
 
 void Toolbar::handleEvent(LeftMouse* mouse, Pallete* pallete, Canvas* canvas){

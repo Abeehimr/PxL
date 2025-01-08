@@ -15,6 +15,8 @@ class Tool {
         void setStamp(Stamp* s = nullptr);
         Stamp* getStamp();
         void setStampRadius(int);
+        void incStampRadius();
+        void decStampRadius();
         int getStampRadius();
         sf::Color getColor(Pallete*);
         virtual void handleEvent(LeftMouse*,Pallete*, Canvas* ) = 0;
