@@ -4,7 +4,7 @@ App::App(){
     window.create(sf::VideoMode::getDesktopMode(), "Paint 95",sf::Style::Default);
     size = window.getSize();
     canvas = new Canvas(size.x-100, size.y-150);
-    pallete = new Pallete();
+    pallete = new Pallete(0, static_cast<int>(size.y-100));
     canvas->updatePosition(100,50);
     cout << "App created\n";
 }
@@ -40,6 +40,7 @@ void App::run(){
                 
         }
         mouse->Update(&window);
+        pallete->handleEvent(mouse);
         if (active)
             e->handleEvent(mouse,pallete,canvas);
         else{
@@ -51,6 +52,7 @@ void App::run(){
         
         //window.draw(canvas->getSprite());
         canvas->draw(window);
+        pallete->draw(window);
         window.display();
     }
 }

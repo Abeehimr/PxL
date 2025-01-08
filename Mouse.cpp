@@ -10,6 +10,7 @@ void LeftMouse::Update(sf::RenderWindow* window){
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         lastMousePos = mousePos;
         mousePos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+        // cout << mousePos.x << " " << mousePos.y << endl;
         if (startMousePos.x == -1 && startMousePos.y == -1) {
             startMousePos = mousePos;
         }
